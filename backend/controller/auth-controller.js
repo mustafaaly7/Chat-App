@@ -1,9 +1,10 @@
 import sendResponse from "../helpers/send-response.js"
 import { generateToken } from "../lib/utils.js"
 import userModel from "../models/user-model.js"
-import { signupSchema } from "../models/validationSchema/auth-scehma.js"
+import { loginSchema, signupSchema } from "../models/validationSchema/auth-scehma.js"
 import bcrypt from "bcryptjs"
 
+// signup request function 
 
 export const signup = async (req, res) => {
 
@@ -17,25 +18,25 @@ export const signup = async (req, res) => {
         // checking if user already exist or not 
 
         const existingUser = await userModel.findOne({ email: value.email });
-console.log("existing user " , existingUser);
+        console.log("existing user ", existingUser);
 
         if (existingUser) return sendResponse(res, 400, true, null, "Email Already Registered")
 
-            // bcrypting password 
+        // bcrypting password 
 
-const salt = await bcrypt.genSalt(12)
-const hashedPassword = await bcrypt.hash(value.password,salt)
-value.password = hashedPassword
+        const salt = await bcrypt.genSalt(12)
+        const hashedPassword = await bcrypt.hash(value.password, salt)
+        value.password = hashedPassword
 
-let registerUser = new userModel(value)
+        let registerUser = new userModel(value)
 
-if(!registerUser)return sendResponse(res, 400 , true ,null , "invalid user data") 
-    
-    //this will store the token on  cookie more secure then on with the  frontend 
-    generateToken(registerUser._id ,res)
+        if (!registerUser) return sendResponse(res, 400, true, null, "invalid user data")
 
-    await registerUser.save()
-    sendResponse(res , 201 , false , registerUser , "user Created Successfully" )
+        //this will store the token on  cookie more secure then on with the  frontend 
+        generateToken(registerUser._id, res)
+
+        await registerUser.save()
+        sendResponse(res, 201, false, registerUser, "user Created Successfully")
 
 
     } catch (error) {
@@ -44,5 +45,63 @@ if(!registerUser)return sendResponse(res, 400 , true ,null , "invalid user data"
     }
 
 
+
+}
+
+// login controller 
+
+export const login = async (req, res) => {
+
+
+    try {
+
+        // used joi for validation  
+
+        const { error, value } = loginSchema.validate(req.body)
+
+        if (error) return sendResponse(res, 400, true, null, error.message)
+
+        // checking if user  exist or not 
+        const existingUser = await userModel.findOne({ email: value.email });
+
+        if (!existingUser) return sendResponse(res, 404, true, null, "Invalid Credentials")
+
+
+        // checking if bcrypted password is correct or not 
+
+        const isPasswordcorrect = await bcrypt.compare(value.password, existingUser.password)
+        if (!isPasswordcorrect) return sendResponse(res, 404, true, null, "Invalid Credentials")
+
+
+        // calling generate token function to store token of user's id in cookie from backend more securely  
+        await generateToken(existingUser.id, res)
+
+        // deleting user's password only in req not from backend its still saved as bcrypted password
+
+        const userData = existingUser.toObject(); // to object is a good way to delete it instead of sending values in a seperate object 
+        delete userData.password;
+
+        sendResponse(res, 200, false, userData, "User logged in successfully");
+
+    } catch (error) {
+        sendResponse(res, 400, true, null, error.message)
+
+    }
+
+
+}
+
+
+export const logout = async (req, res) => {
+
+    try {
+
+        res.cookie("Jwt", " ", { maxAge: 0 })
+        
+        sendResponse(res, 200, false, null, "Logged out successfully ")
+    } catch (error) {
+        sendResponse(res, 400, true, null, error.message)
+
+    }
 
 }
