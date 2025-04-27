@@ -1,4 +1,5 @@
 import sendResponse from "../helpers/send-response.js"
+import cloudinary from "../lib/cloudinary.js"
 import { generateToken } from "../lib/utils.js"
 import userModel from "../models/user-model.js"
 import { loginSchema, signupSchema } from "../models/validationSchema/auth-scehma.js"
@@ -96,12 +97,36 @@ export const logout = async (req, res) => {
 
     try {
 
-        res.cookie("Jwt", " ", { maxAge: 0 })
-        
+        res.cookie("jwt", " ", { maxAge: 0 })
+
         sendResponse(res, 200, false, null, "Logged out successfully ")
     } catch (error) {
         sendResponse(res, 400, true, null, error.message)
 
     }
+
+}
+
+
+export const updateProfile = async (req, res) => {
+
+    try {
+        const { profilePic } = req.body
+        const userId = req.user._id;
+
+        if (!profilePic) return sendResponse(res, 400, true, null, "profile pic required")
+
+        const uploadResponse = await cloudinary.uploader.upload(profilePic) // upload the picture on cloudinary and give the url 
+
+        const updatedUser = await userModel.findByIdAndUpdate(userId, { profilePic: uploadResponse.secure_url }, { new: true }) // upload the url which is secure in mongodb  after finding user by id 
+
+
+        sendResponse(res, 200, false, updatedUser, "Profile Picture Updated Successfully")
+
+    } catch (error) {
+        sendResponse(res, 400, true, null, error.message)
+
+    }
+
 
 }

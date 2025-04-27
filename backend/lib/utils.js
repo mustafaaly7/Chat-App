@@ -9,7 +9,7 @@ export const generateToken = async (userId, res) => {
     })
 
 
-    res.cookie("Jwt", token, {
+    res.cookie("jwt", token, {
         maxAge: 7 * 24 * 60 * 60 * 1000, // converts 7days into milliseconds cookie expiry time
         httpOnly: true, // Storing the token as an httpOnly cookie makes it less vulnerable to XSS (Cross-Site Scripting) attacks.
         sameSite: "strict", //Prevents the browser from sending this cookie along with cross-site requests.
