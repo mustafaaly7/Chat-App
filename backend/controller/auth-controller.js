@@ -92,6 +92,7 @@ export const login = async (req, res) => {
 
 }
 
+// logout controller 
 
 export const logout = async (req, res) => {
 
@@ -107,6 +108,7 @@ export const logout = async (req, res) => {
 
 }
 
+// updating pfp  controller 
 
 export const updateProfile = async (req, res) => {
 
@@ -128,5 +130,44 @@ export const updateProfile = async (req, res) => {
 
     }
 
+
+}
+
+// get user info without password  controller 
+
+export const getUser = async (req,res)=>{
+
+    try {
+        
+    
+const userId = req.user._id;
+
+if(!userId) return sendResponse(res, 400, true, null, "token required")
+
+const userInfo = await userModel.findById(userId)
+if(!userInfo) return sendResponse(res, 404, true, null, "User not found")
+
+    const userData = userInfo.toObject()
+    delete userData.password
+    
+sendResponse(res , 200 , false , userData , "User Data Fetched Successfully" )
+
+} catch (error) {
+        sendResponse(res, 400, true, null, error.message)
+        
+}
+
+}
+
+// checking if token is there or not to revalidate  controller 
+
+export const checkAuth = (req,res)=>{
+try {
+sendResponse(res , 200 , false , req.user , "User Data Fetched Successfully" )
+    
+} catch (error) {
+    sendResponse(res, 400, true, null, error.message)
+    
+}
 
 }
