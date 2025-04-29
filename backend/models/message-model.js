@@ -1,4 +1,3 @@
-import { ref, string } from "joi";
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
@@ -14,10 +13,10 @@ const messageSchema = new mongoose.Schema({
         required : true
     },
     text:{
-        type:string
+        type:String
     },
     image:{
-        type:string
+        type:String
     }
  
 },{
