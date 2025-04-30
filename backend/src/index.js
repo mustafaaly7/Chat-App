@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import { connectDb } from "../lib/connect-db.js";
 import cookieParser from "cookie-parser"
 import messageRoutes from "../routes/message_route.js"
+import cors from 'cors'
 
 dotenv.config()
 // connecting database 
@@ -11,7 +12,12 @@ connectDb()
 
 const app = express()
 const PORT = process.env.PORT
+
 // middlewares 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials:true // send cookies etc 
+}))
 app.use(cookieParser())
 app.use(express.json())
 

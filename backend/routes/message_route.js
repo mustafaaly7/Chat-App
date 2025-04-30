@@ -11,4 +11,7 @@ routes.get("/:id" , authenticateUser , getMessages)
 
 routes.post("/send/:id" , authenticateUser , sendMessage)
 
+
+
+
 export default routes

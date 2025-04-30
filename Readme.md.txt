@@ -13,4 +13,5 @@ Real-time: Socket.IO
 Bot: Botpress / ChatterBot / Dialogflow (Optional)
 
 
-For now : (on frontend vite engine installed ) (on backend express, mongoose, dotenv, jsonwebtoken, bcryptjs, joi, cookie-parser, nodemon, cloudinary, socket.io,) 
+For now :  (on backend express, mongoose, dotenv, jsonwebtoken, bcryptjs, joi, cors, cookie-parser, nodemon, cloudinary, socket.io,) 
+(on frontend vite engine ,react  router dom ,  react hot toast ,daisy ui for components ,axios, zustand )
