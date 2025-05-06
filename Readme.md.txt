@@ -14,4 +14,4 @@ Bot: Botpress / ChatterBot / Dialogflow (Optional)
 
 
 For now :  (on backend express, mongoose, dotenv, jsonwebtoken, bcryptjs, joi, cors, cookie-parser, nodemon, cloudinary, socket.io,) 
-(on frontend vite engine ,react  router dom ,  react hot toast ,daisy ui for components ,axios, zustand , lucide react for icon )
+(on frontend vite engine ,react  router dom ,  react hot toast ,lottiefiles/dotlottie-react, daisy ui for components ,axios, zustand , lucide react for icon )
