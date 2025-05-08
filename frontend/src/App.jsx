@@ -10,6 +10,7 @@ import { Login } from './pages/login';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 import ScreenLoader from './components/Loader';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -18,12 +19,17 @@ function App() {
 
 const  {authUser , checkAuth ,isCheckingAuth}= useAuthStore()
 
+// use effect to check auth from backend and cookies 
+// and implementing loader on entire website 
+
 useEffect(()=>{
 checkAuth()
 
 },[checkAuth])
 console.log("auth user from app.jsx" , authUser);
 
+
+// conditional rendering of loader based on loading state and auth user state 
 if(isCheckingAuth && !authUser) return(
   <div className='flex justify-center h-screen items-center'>
 
@@ -45,7 +51,10 @@ if(isCheckingAuth && !authUser) return(
         <Route path='/profile' element={ authUser ?  <Profile /> : <Navigate to={"/login"} />} />
       </Routes>
 
-
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
     </div>
   )
 }

@@ -3,28 +3,56 @@ import { useAuthStore } from "../store/useAuthStore"
 import { Loader, Mail } from 'lucide-react';
 import { Eye } from 'lucide-react';
 import { EyeOff } from 'lucide-react';
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import toast from 'react-hot-toast';
 
 
 
 export const Signup = () => {
 
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [formData, setFormData] = useState({
-        fullName: "",
+        fullname: "",
         email: "",
         password: ""
 
     })
     const { signup, isSigningUp } = useAuthStore()
-    const validateForm = () => { };
-    const handleSubmit = (e) => {
+
+    // just for validation of form 
+    const validateForm = () => {
+        if (!formData.fullname.trim()) return toast.error('full name is Required!')
+        if (!formData.email.trim()) return toast.error('email is Required!')
+        if (!formData.password.trim()) return toast.error('password is Required!')
+        if (formData.password.length < 6) return toast.error('password must be atleast 6 characters')
+        return true
+
+    };
+
+
+// handling signup api with zustand  in authstore
+    const handleSubmit = async(e) => {
         e.preventDefault()
+
+        
+        const isValid = validateForm()
+        if (!isValid ) return 
+
+
+        const success = await signup(formData)
+
+if(success){
+
+        
+        navigate("/")
+}
+
+
 
     }
 
-    console.log("formdata", formData);
 
 
     return (
@@ -52,8 +80,8 @@ export const Signup = () => {
                                     type="text"
                                     placeholder="John Doe"
                                     className="input input-md w-full"
-                                    value={formData.fullName}
-                                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                                    value={formData.fullname}
+                                    onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
                                     required
                                 />
                             </label>
