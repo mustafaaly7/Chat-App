@@ -54,17 +54,42 @@ export const useAuthStore = create((set) => ({
 
     },
 
+    logIn: async (data) => {
+        set({ isLoggingIn: true })
+        try {
+            const res = await axiosInstance.post("/auth/login", data)
+            console.log("response success", res.data);
+
+            toast.success(res.data.message)
+
+            // getting the check auth state and calling the function to update and check the cookie before redirecting to home page 
+            await useAuthStore.getState().checkAuth()
+
+
+            return true
+        } catch (error) {
+
+            toast.error(error?.response?.data?.message)
+            return false
+        } finally {
+            set({ isLoggingIn: false })
+
+        }
+
+
+
+    },
+
     logout: async () => {
         try {
             const res = await axiosInstance.post("/auth/logout")
             toast.success(res.data.message)
-set({authUser : null})
+            set({ authUser: null })
 
         } catch (error) {
             toast.error(error.response.data.message)
 
-        }finally{
-
+        } finally {
         }
 
     }
