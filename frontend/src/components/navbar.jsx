@@ -18,7 +18,7 @@ export const Navbar = () => {
     <header className="w-full bg-base-200 shadow-md">
       <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Left: Logo and Name */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={()=> navigate("/") }>
           <div className="bg-primary/20 p-2 rounded-xl">
             <MessageSquareMore className="w-6 h-6" />
             {/* <img src="/logo.svg" alt="Logo" className="w-6 h-6" /> */}

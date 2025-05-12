@@ -153,12 +153,12 @@ if(success){
 
             {/* Right Side Lottie Animation for big screens */}
             <div className="hidden lg:flex items-center justify-center bg-primary/10 relative overflow-hidden">
-                <DotLottieReact
-                    src="https://lottie.host/5f271e98-b8e7-4698-ac74-1c14fe1feaa3/W59CpoJFzi.lottie"
-                    loop
-                    autoplay
-                />
-            </div>
+                    <DotLottieReact
+                        src="https://lottie.host/b7821f86-51d5-4006-8265-264dbaf1483b/ujVa0tZl8l.lottie"
+                        loop
+                        autoplay
+                    />
+                </div>
 
 
 

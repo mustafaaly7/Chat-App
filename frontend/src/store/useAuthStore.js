@@ -17,7 +17,7 @@ export const useAuthStore = create((set) => ({
 
         try {
             const res = await axiosInstance.get("/auth/check-auth")
-            console.log("resposnse check auth", res);
+            // console.log("resposnse check auth", res);
 
             set({ authUser: res.data }) // changing state to token from null if it send token in response
 
@@ -25,7 +25,7 @@ export const useAuthStore = create((set) => ({
             console.log("error ", error.response?.data?.message);
 
             set({ authUser: false }) // changing state to null if it crashes
-            console.log("authUser", useAuthStore.getState().authUser);
+            // console.log("authUser", useAuthStore.getState().authUser);
 
         } finally {
             set({ isCheckingAuth: false }) //changing loader to false 
@@ -58,7 +58,7 @@ export const useAuthStore = create((set) => ({
         set({ isLoggingIn: true })
         try {
             const res = await axiosInstance.post("/auth/login", data)
-            console.log("response success", res.data);
+            // console.log("response success", res.data);
 
             toast.success(res.data.message)
 
@@ -91,6 +91,33 @@ export const useAuthStore = create((set) => ({
 
         } finally {
         }
+
+    },
+
+    updateProfile : async(data)=>{
+
+        set({isUpdatingProfile : true})
+        try {
+const res = await axiosInstance.put("/auth/update-profile" , data)
+// console.log("res" , res.data);
+toast.success("image updated succesfully")
+set({authUser : res.data})
+            await useAuthStore.getState().checkAuth()
+
+
+
+
+        } catch (error) {
+            toast.error(error.response.data.message)
+            
+console.log("error" , error);
+
+
+        }finally{
+            set({isUpdatingProfile : false})
+
+        }
+
 
     }
 

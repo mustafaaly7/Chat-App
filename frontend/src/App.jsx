@@ -26,7 +26,6 @@ useEffect(()=>{
 checkAuth()
 
 },[checkAuth])
-console.log("auth user from app.jsx" , authUser);
 
 
 // conditional rendering of loader based on loading state and auth user state 
