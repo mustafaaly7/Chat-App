@@ -94,14 +94,14 @@ export const useAuthStore = create((set) => ({
 
     },
 
-    updateProfile : async(data)=>{
+    updateProfile: async (data) => {
 
-        set({isUpdatingProfile : true})
+        set({ isUpdatingProfile: true })
         try {
-const res = await axiosInstance.put("/auth/update-profile" , data)
-// console.log("res" , res.data);
-toast.success("image updated succesfully")
-set({authUser : res.data})
+            const res = await axiosInstance.put("/auth/update-profile", data)
+            // console.log("res" , res.data);
+            toast.success("image updated succesfully")
+            set({ authUser: res.data })
             await useAuthStore.getState().checkAuth()
 
 
@@ -109,12 +109,12 @@ set({authUser : res.data})
 
         } catch (error) {
             toast.error(error.response.data.message)
-            
-console.log("error" , error);
+
+            console.log("error", error);
 
 
-        }finally{
-            set({isUpdatingProfile : false})
+        } finally {
+            set({ isUpdatingProfile: false })
 
         }
 

@@ -11,6 +11,7 @@ import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 import ScreenLoader from './components/Loader';
 import { Toaster } from 'react-hot-toast';
+import { useThemeStore } from './store/useTheme';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
   // for structure routing in every page we'll include navbar  in all the routes mentioned 
 
 const  {authUser , checkAuth ,isCheckingAuth}= useAuthStore()
+const {theme} = useThemeStore()
 
 // use effect to check auth from backend and cookies 
 // and implementing loader on entire website 
@@ -38,7 +40,7 @@ if(isCheckingAuth && !authUser) return(
 
 
   return (
-    <div>
+    <div data-theme={theme}>
 
       <Navbar />
       <Routes>
@@ -46,7 +48,7 @@ if(isCheckingAuth && !authUser) return(
         <Route path='/' element={ authUser ?  <Home /> : <Navigate to={"/login"} />} />
         <Route path='/login' element={!authUser?  <Login /> : <Navigate to={"/"} /> } />
         <Route path='/signup' element={!authUser?  <Signup /> : <Navigate to={"/"} />} />
-        <Route path='/settings' element={ authUser ?  <Setting /> : <Navigate to={"/login"} />} />
+        <Route path='/settings' element={<Setting/>}/>
         <Route path='/profile' element={ authUser ?  <Profile /> : <Navigate to={"/login"} />} />
       </Routes>
 

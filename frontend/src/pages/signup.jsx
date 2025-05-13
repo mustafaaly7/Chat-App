@@ -151,7 +151,7 @@ if(success){
                             {/* Link to login */}
                             <p className="text-center text-zinc-400">
                                 Already have an account?{" "}
-                                <Link to="/login" className="text-zinc-200 hover:underline">
+                                <Link to="/login" className="text-primary font-semibold hover:underline">
                                     Login
                                 </Link>
                             </p>
