@@ -71,7 +71,7 @@ if(success){
                                 <Mail className="text-primary size-6" />
                             </div>
                             <h1 className="text-2xl font-bold mt-2">Welcome Back !</h1>
-                            <p className="text-base-content/60">Signin To Your Account</p>
+                            <p className="text-base-content/60">Sign in To Your Account</p>
                         </div>
                     </div>
 
@@ -157,6 +157,7 @@ if(success){
                         src="https://lottie.host/b7821f86-51d5-4006-8265-264dbaf1483b/ujVa0tZl8l.lottie"
                         loop
                         autoplay
+                        className=""
                     />
                 </div>
 

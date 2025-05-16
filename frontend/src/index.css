@@ -3,3 +3,9 @@
 @plugin "daisyui" {
   themes: all;
 }
+
+
+
+body{
+font-family: cursive;
+}
