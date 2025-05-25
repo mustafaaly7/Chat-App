@@ -5,18 +5,18 @@ import userModel from "../models/user-model.js"
 
 export const authenticateUser = async (req, res, next) => {
     try {
-console.log("JWT" , req.cookies.jwt)
+// console.log("JWT" , req.cookies.jwt)
 
         const token = req.cookies.jwt
-console.log("JWT" , token)
+// console.log("JWT" , token)
         if (!token) return sendResponse(res, 400, true, null, "unAuthorized - No token provided ")
 
         const decoded = await jwt.verify(token, process.env.JWT_SECRET)
-        console.log("decode" , decoded);
+        // console.log("decode" , decoded);
         
         if (!decoded) return sendResponse(res, 400, true, null, "unAuthorized - Invalid token ")
         const user = await userModel.findById(decoded.userId).select("-password") // select ("-password ") means dont add password to this data
-    console.log("user => " , user._id);
+    // console.log("user => " , user._id);
     
         if (!user) return sendResponse(res, 404, true, null, "User not found")
 

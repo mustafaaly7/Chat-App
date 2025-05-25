@@ -1,5 +1,6 @@
 import sendResponse from "../helpers/send-response.js"
 import cloudinary from "../lib/cloudinary.js"
+import { getRecieverSocketId, io } from "../lib/socket.js"
 import messageModel from "../models/message-model.js"
 import userModel from "../models/user-model.js"
 
@@ -78,7 +79,13 @@ let newMessage = new messageModel({
 await newMessage.save()
 
 
-// todo :realtime functionality goes here  
+
+const getRecieverId = getRecieverSocketId(recieverId)
+if(getRecieverId) { 
+    io.to(getRecieverId).emit("newMessage" , newMessage) // only broadcasting the msg to single user reciever id realtime 
+    //else single emit will broadcast to everyone
+}
+
 
 sendResponse(res, 200 , false , newMessage , "Message send successfully")
 

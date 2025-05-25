@@ -3,7 +3,6 @@ import './App.css'
 import { Navbar } from './components/navbar'
 import { Navigate, Route, Routes } from "react-router";
 import { Setting } from './pages/setting';
-import { Home } from './pages/home';
 import { Profile } from './pages/profile';
 import { Signup } from './pages/signup';
 import { Login } from './pages/login';
@@ -12,15 +11,18 @@ import { useEffect } from 'react';
 import ScreenLoader from './components/Loader';
 import { Toaster } from 'react-hot-toast';
 import { useThemeStore } from './store/useTheme';
+import Home from './pages/home';
 
 function App() {
 
 
   // for structure routing in every page we'll include navbar  in all the routes mentioned 
 
-const  {authUser , checkAuth ,isCheckingAuth}= useAuthStore()
+const  {authUser , checkAuth ,isCheckingAuth , onlineUsers}= useAuthStore()
 const {theme} = useThemeStore()
 
+console.log("onlineUsers" , onlineUsers)
+console.log("authuser" , authUser)
 // use effect to check auth from backend and cookies 
 // and implementing loader on entire website 
 
