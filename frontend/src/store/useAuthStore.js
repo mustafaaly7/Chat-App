@@ -129,7 +129,7 @@ onlineUsers :{},
     connectSocket: () => {
         const { authUser } = get()
         if (!authUser || get().socket?.connected) return
-        const socket = io(devurl,{
+        const socket = io(import.meta.env.VITE_REACT_APP_URL,{
             query : { userId : authUser.data._id}
         })
         socket.connect()
