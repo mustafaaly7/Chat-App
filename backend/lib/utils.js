@@ -10,10 +10,28 @@ export const generateToken = async (userId, res) => {
 
 
     res.cookie("jwt", token, {
-        maxAge: 7 * 24 * 60 * 60 * 1000, // converts 7days into milliseconds cookie expiry time
-        httpOnly: true, // Storing the token as an httpOnly cookie makes it less vulnerable to XSS (Cross-Site Scripting) attacks.
-        sameSite: "strict", //Prevents the browser from sending this cookie along with cross-site requests.
-        secure : process.env.NODE_ENV !== "development"
+        maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expires in 7 days (milliseconds)
+
+    httpOnly: true,  // Cookie is inaccessible to JS running in browser (protects from XSS attacks)
+
+    /*
+      sameSite: "None" 
+      ----------------------------------
+      - Allows cookie to be sent in cross-site requests.
+      - Necessary because frontend (Vercel) and backend are on different origins.
+      - "strict" or "lax" would block cross-site cookies and cause auth failure.
+    */
+    sameSite: "None",
+
+    /*
+      secure: true
+      ----------------------------------
+      - Cookies with sameSite: "None" must also be secure.
+      - Ensures cookie is only sent over HTTPS connections.
+      - Prevents sending cookies over insecure HTTP.
+      - Since deployed sites use HTTPS, this should always be true in production.
+    */
+    secure: true,
     })
 
     return token
