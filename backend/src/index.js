@@ -15,7 +15,7 @@ const PORT = process.env.PORT
 
 // middlewares 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://chatty-black-omega.vercel.app"],
     credentials:true // send cookies etc 
 }))
 app.use(cookieParser())
