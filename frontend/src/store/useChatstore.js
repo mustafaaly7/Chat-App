@@ -64,6 +64,8 @@ const socket = useAuthStore.getState().socket
 
 //optimize later
 socket.on("newMessage" , (newMessage) =>{
+if(newMessage.senderId !== selectedUser.Id ) return
+
     set({
 
         messages : [...get().messages , newMessage],
