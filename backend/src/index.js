@@ -11,7 +11,7 @@ dotenv.config()
 // connecting database 
 connectDb()
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5001;
 
 // middlewares 
 app.use(cors({
