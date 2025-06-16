@@ -11,7 +11,7 @@ export const useAuthStore = create((set, get) => ({
     isSigningUp: false,
     isLoggingIn: false,
     isUpdatingProfile: false, //just multiple global  states to hande it properly 
-onlineUsers :{},
+onlineUsers :[],
     isCheckingAuth: true, // loader to check if user is logged in or not 
     socket: null,
 
