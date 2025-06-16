@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5001;
 
 // middlewares 
 app.use(cors({
-    origin:true,
+    origin:"https://chatty-black-omega.vercel.app",
     credentials:true // send cookies etc 
 }))
 app.use(cookieParser())

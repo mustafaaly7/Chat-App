@@ -1,5 +1,6 @@
-import { configDotenv } from "dotenv";
 import jwt from "jsonwebtoken"
+import dotenv from "dotenv";
+dotenv.config();
 
 // just making a token of id 
 export const generateToken = async (userId, res) => {
@@ -32,6 +33,7 @@ export const generateToken = async (userId, res) => {
       - Since deployed sites use HTTPS, this should always be true in production.
     */
     secure: true,
+    path: "/", // Optional but useful to explicitly define
     })
 
     return token
