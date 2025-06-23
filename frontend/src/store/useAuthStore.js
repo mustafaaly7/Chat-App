@@ -28,7 +28,7 @@ onlineUsers :[],
         } catch (error) {
             console.log("error ", error.response?.data?.message);
 
-            set({ authUser: false }) // changing state to null if it crashes
+            set({ authUser: null }) // changing state to null if it crashes
             // console.log("authUser", useAuthStore.getState().authUser);
 
         } finally {
@@ -40,6 +40,7 @@ onlineUsers :[],
         set({ isSigningUp: true }) //updating loadig state to true while the data is being processed
         try {
             const res = await axiosInstance.post('/auth/signup', data)
+            set({ authUser: res.data });
             toast.success(res.data.message)
 
             // getting the check auth state and calling the function to update and check the cookie
@@ -127,19 +128,36 @@ onlineUsers :[],
 
     },
     connectSocket: () => {
-        const { authUser } = get()
-        if (!authUser || get().socket?.connected) return
-        const socket = io(import.meta.env.VITE_REACT_APP_URL,{
-            query : { userId : authUser.data._id}
-        })
-        socket.connect()
-        set({ socket: socket })
+    const { authUser, socket } = get();
 
-        socket.on("getOnlineUsers",(userIds) =>{ set({onlineUsers : userIds})})
+    // ✅ Validate user
+    if (!authUser?.data?._id) return;
 
-    },
+    // ✅ Prevent double connection
+    if (socket && socket.connected) return;
 
+    // 🔒 Use full production URL with websocket-only transport
+    const newSocket = io(import.meta.env.VITE_REACT_APP_URL, {
+        query: { userId: authUser.data._id },
+        transports: ["websocket"], // 🔥 Force websocket to avoid fallback issues
+        withCredentials: true,
+    });
 
+    set({ socket: newSocket });
+
+    newSocket.on("connect", () => {
+        console.log("✅ Socket connected:", newSocket.id);
+    });
+
+    newSocket.on("getOnlineUsers", (userIds) => {
+        console.log("📡 Online users:", userIds);
+        set({ onlineUsers: userIds });
+    });
+
+    newSocket.on("disconnect", () => {
+        console.log("❌ Socket disconnected");
+    });
+},
 
     disconnectSocket: () => {
         if (get().socket?.connected) get().socket.disconnect()

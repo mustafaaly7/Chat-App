@@ -12,7 +12,9 @@
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.13.5",
     "@tailwindcss/vite": "^4.1.4",
+    "aos": "^2.3.4",
     "axios": "^1.9.0",
+    "framer-motion": "^12.19.0",
     "lucide": "^0.506.0",
     "lucide-react": "^0.506.0",
     "react": "^19.0.0",

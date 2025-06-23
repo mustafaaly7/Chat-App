@@ -46,7 +46,6 @@ const ChatContainer = () => {
   }
 
   // console.log("auth id" , authUser._id)
-  console.log("selected user" , selectedUser)
   return (
     <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeader />

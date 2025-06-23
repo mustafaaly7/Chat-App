@@ -2,9 +2,13 @@ import { useChatstore } from "../store/useChatstore"
 import Sidebar from "../components/Sidebar";
 import { NoChatSelected } from "../components/NoChatSelected";
 import ChatContainer from "../components/ChatContainer";
+import { useAuthStore } from "../store/useAuthStore";
 
 const Home = () => {
-  const { selectedUser } = useChatstore();
+  const { selectedUser} = useChatstore();
+const onlineUsers = useAuthStore((state) => state.onlineUsers);
+console.log("online users" , onlineUsers);
+
 
   return (
     <div className="h-screen bg-base-200">
