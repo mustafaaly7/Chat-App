@@ -137,7 +137,7 @@ onlineUsers :[],
     if (socket && socket.connected) return;
 
     // 🔒 Use full production URL with websocket-only transport
-    const newSocket = io(import.meta.env.VITE_REACT_APP_URL, {
+    const newSocket = io(import.meta.env.VITE_REACT_APP_SOCKET_URL, {
         query: { userId: authUser.data._id },
         transports: ["websocket"], // 🔥 Force websocket to avoid fallback issues
         withCredentials: true,

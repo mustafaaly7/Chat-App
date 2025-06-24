@@ -6,16 +6,21 @@ import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatstore();
-  const { onlineUsers } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
+  const onlineUsers = useAuthStore((state) => state.onlineUsers);
+
+  useEffect(() => {
+  console.log("✅ Online Users Updated:", onlineUsers);
+}, [onlineUsers]);
+
 
   useEffect(() => {
     getUsers();
   }, [getUsers]);
 
   const filteredUsers = showOnlineOnly
-    ? users.filter((user) => Array.isArray(onlineUsers) && onlineUsers.includes(user._id))
-    : users;
+  ? users.filter((user) => onlineUsers?.includes(user._id))
+  : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
@@ -37,8 +42,8 @@ const Sidebar = () => {
             <span className="text-sm">Show online only</span>
           </label>
           <span className="text-xs text-zinc-500">
-            ({Array.isArray(onlineUsers) ? onlineUsers.length - 1 : 0} online)
-          </span>
+  ({Math.max(onlineUsers.length - 1, 0)} online)
+</span>
         </div>
       </div>
 
