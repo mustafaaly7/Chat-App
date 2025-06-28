@@ -64,7 +64,7 @@ const socket = useAuthStore.getState().socket
 
 //optimize later
 socket.on("newMessage" , (newMessage) =>{
-if(newMessage.senderId !== selectedUser.Id ) return
+if (newMessage.senderId !== selectedUser._id) return;
 
     set({
 
@@ -82,23 +82,32 @@ socket.off("newMessage")
 //todo : optimize that later
 setSelectedUser : (selectedUser) => set({selectedUser}),
 
-sendMessage : async(messageData) =>{
-const {messages , selectedUser} = get()  
+sendMessage: async (messageData) => {
+  const { messages, selectedUser } = get();
+  const { socket, authUser } = useAuthStore.getState();
 
-try {
-    const res =  await axiosInstance.post(`/message/send/${selectedUser._id}` , messageData)
-    set({messages : [...messages , res.data.data]})
+  try {
+    const res = await axiosInstance.post(`/message/send/${selectedUser._id}`, messageData);
+    const newMessage = res.data.data;
 
+    // 1. Update local state
+    set({ messages: [...messages, newMessage] });
 
+    // 2. Emit to the receiver using socket.io
+    if (socket && socket.connected) {
+      socket.emit("sendMessage", {
+        receiverId: selectedUser._id,
+        message: newMessage,
+      });
+    }
 
-} catch (error) {
-    toast.error(error.response.data.message)
-    console.log(error.response.data.message)
-
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    console.log(error?.response?.data?.message);
+  }
 }
 
 
-}
 
 
 }))
